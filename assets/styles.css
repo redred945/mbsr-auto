@@ -64,19 +64,19 @@ p { margin: 0; }
 .btn:active { transform: scale(.98); }
 
 /* ===================== Header (barre en haut → îlot flottant au scroll) ===================== */
-.hd { position: sticky; top: 0; z-index: 100; background: linear-gradient(180deg, rgba(12, 12, 14, .92), rgba(12, 12, 14, 0)); transition: background .3s var(--ease); }
-.hd.stuck { background: transparent; }
+.hd { position: sticky; top: 0; z-index: 100; padding-top: 0; background: linear-gradient(180deg, rgba(12, 12, 14, .92), rgba(12, 12, 14, 0)); transition: background .3s var(--ease), padding-top .32s var(--ease); }
+.hd.stuck { background: transparent; padding-top: 16px; }
 .hd-in {
   max-width: var(--wrap); margin: 0 auto; padding: 0 22px; height: 64px;
   display: flex; align-items: center; justify-content: space-between; gap: 1.5rem;
   border: 1px solid transparent; border-radius: 0;
-  transition: max-width .42s var(--ease), margin-top .32s var(--ease), height .3s var(--ease),
+  transition: max-width .42s var(--ease), height .3s var(--ease),
     padding .3s var(--ease), background .3s var(--ease), border-color .3s var(--ease),
     border-radius .42s var(--ease), box-shadow .3s var(--ease);
 }
 .hd.stuck .hd-in {
   max-width: min(960px, calc(100% - 28px));
-  margin-top: 9px; height: 54px; padding: 0 12px 0 20px;
+  height: 54px; padding: 0 12px 0 20px;
   background: rgba(19, 19, 23, .72); backdrop-filter: saturate(180%) blur(22px);
   border-color: var(--hair-2); border-radius: 100px;
   box-shadow: 0 16px 38px -16px rgba(0, 0, 0, .7);
