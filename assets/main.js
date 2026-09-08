@@ -75,9 +75,9 @@
     if (hasGSAP && anim) {
       window.gsap.registerPlugin(window.ScrollTrigger);
       var heroImg = document.getElementById("heroImg");
-      if (heroImg) window.gsap.fromTo(heroImg, { yPercent: -5, scale: 1.05 }, {
-        yPercent: 5, scale: 1, ease: "none",
-        scrollTrigger: { trigger: ".hero-shot", start: "top bottom", end: "bottom top", scrub: true }
+      if (heroImg) window.gsap.fromTo(heroImg, { yPercent: -4, scale: 1.16 }, {
+        yPercent: 4, scale: 1.1, ease: "none",
+        scrollTrigger: { trigger: ".hero", start: "top top", end: "bottom top", scrub: true }
       });
     }
   } catch (err) {
