@@ -4,7 +4,7 @@
   var reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
   var anim = !reduce;
 
-  /* ---------- reveals: set up the safety nets FIRST, before anything can throw ---------- */
+  /* ---------- reveals: safety nets FIRST, before anything can throw ---------- */
   var reveals = Array.prototype.slice.call(document.querySelectorAll(".reveal"));
   var revealAll = function () { for (var i = 0; i < reveals.length; i++) reveals[i].classList.add("in"); };
   var unlock = function () { docEl.classList.remove("anim"); revealAll(); };
@@ -53,13 +53,47 @@
     if (hasGSAP && anim) {
       window.gsap.registerPlugin(window.ScrollTrigger);
       var heroImg = document.getElementById("heroImg");
-      if (heroImg) window.gsap.fromTo(heroImg, { yPercent: -4, scale: 1.06 }, {
-        yPercent: 4, scale: 1, ease: "none",
+      if (heroImg) window.gsap.fromTo(heroImg, { yPercent: -5, scale: 1.05 }, {
+        yPercent: 5, scale: 1, ease: "none",
         scrollTrigger: { trigger: ".hero-shot", start: "top bottom", end: "bottom top", scrub: true }
       });
     }
   } catch (err) {
     unlock();
+  }
+
+  /* lightbox */
+  var items = Array.prototype.slice.call(document.querySelectorAll("#gtrack .gitem"));
+  var lb = document.getElementById("lb");
+  var lbImg = document.getElementById("lbImg");
+  var lbCap = document.getElementById("lbCap");
+  if (lb && lbImg && items.length) {
+    var idx = 0;
+    var open = function (i) {
+      idx = (i + items.length) % items.length;
+      var it = items[idx], im = it.querySelector("img");
+      lbImg.src = im.src; lbImg.alt = im.alt;
+      lbCap.textContent = it.querySelector("span").textContent;
+      lb.classList.add("open"); lb.setAttribute("aria-hidden", "false");
+      document.body.style.overflow = "hidden";
+    };
+    var close = function () { lb.classList.remove("open"); lb.setAttribute("aria-hidden", "true"); document.body.style.overflow = ""; };
+    items.forEach(function (it, i) {
+      it.setAttribute("tabindex", "0");
+      it.addEventListener("click", function () { open(i); });
+      it.addEventListener("keydown", function (e) { if (e.key === "Enter") open(i); });
+    });
+    var byId = function (id) { return document.getElementById(id); };
+    if (byId("lbClose")) byId("lbClose").addEventListener("click", close);
+    if (byId("lbPrev")) byId("lbPrev").addEventListener("click", function () { open(idx - 1); });
+    if (byId("lbNext")) byId("lbNext").addEventListener("click", function () { open(idx + 1); });
+    lb.addEventListener("click", function (e) { if (e.target === lb) close(); });
+    window.addEventListener("keydown", function (e) {
+      if (!lb.classList.contains("open")) return;
+      if (e.key === "Escape") close();
+      else if (e.key === "ArrowLeft") open(idx - 1);
+      else if (e.key === "ArrowRight") open(idx + 1);
+    });
   }
 
   /* contact form (no backend) — compose an e-mail draft */
@@ -75,7 +109,7 @@
       var msg = (d.get("message") || "").toString().trim();
       if (!name || !msg || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
         note.classList.add("err");
-        note.textContent = "Merci de renseigner votre nom, un e-mail valide et la zone à reprendre.";
+        note.textContent = "Merci de renseigner votre nom, un e-mail valide et la zone a reprendre.";
         return;
       }
       var body = "Nom : " + name + "\n" +
