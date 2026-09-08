@@ -119,12 +119,11 @@ p { margin: 0; }
 
 .hero-shot {
   position: relative; z-index: 1;
-  margin: clamp(1.8rem, 1rem + 3vw, 3.2rem) calc(50% - 50vw) 0; width: 100vw;
-  border: 0; overflow: hidden;
-  -webkit-mask-image: linear-gradient(to bottom, transparent 0, #000 14%, #000 82%, transparent 100%);
-  mask-image: linear-gradient(to bottom, transparent 0, #000 14%, #000 82%, transparent 100%);
+  max-width: 760px; margin: clamp(2rem, 1rem + 3vw, 3.4rem) auto 0;
+  border: 1px solid var(--hair-2); border-radius: var(--r); overflow: hidden;
+  box-shadow: 0 40px 90px -45px rgba(0, 0, 0, .9);
 }
-.hero-shot img { width: 100%; height: clamp(360px, 60vw, 640px); object-fit: cover; object-position: 50% 42%; will-change: transform; }
+.hero-shot img { width: 100%; height: clamp(300px, 44vw, 460px); object-fit: cover; object-position: 50% 55%; will-change: transform; }
 
 /* ===================== Sections base ===================== */
 .crafts, .atelier, .gallery, .sinistre, .contact { padding: clamp(4.5rem, 3.5rem + 6vw, 8rem) 0; }
