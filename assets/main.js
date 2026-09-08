@@ -4,6 +4,28 @@
   var reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
   var anim = !reduce;
 
+  /* ---------- intro : rideau de garage, une seule fois par session ---------- */
+  var shutter = document.getElementById("shutter");
+  if (shutter) {
+    var shutterSeen = false;
+    try { shutterSeen = sessionStorage.getItem("mbsrShutter") === "1"; } catch (e) {}
+    var killShutter = function () {
+      if (!shutter) return;
+      shutter.classList.add("gone");
+      if (shutter.parentNode) shutter.parentNode.removeChild(shutter);
+      shutter = null;
+    };
+    if (shutterSeen || reduce) {
+      killShutter();
+    } else {
+      try { sessionStorage.setItem("mbsrShutter", "1"); } catch (e) {}
+      setTimeout(killShutter, 2400);
+      ["click", "touchstart", "keydown", "wheel"].forEach(function (ev) {
+        window.addEventListener(ev, killShutter, { once: true, passive: true });
+      });
+    }
+  }
+
   /* ---------- reveals: safety nets FIRST, before anything can throw ---------- */
   var reveals = Array.prototype.slice.call(document.querySelectorAll(".reveal"));
   var revealAll = function () { for (var i = 0; i < reveals.length; i++) reveals[i].classList.add("in"); };

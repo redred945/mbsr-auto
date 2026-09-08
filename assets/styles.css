@@ -325,3 +325,44 @@ html.anim .reveal.in { opacity: 1; transform: none; transition: opacity .8s var(
   .hero-links { flex-direction: column; gap: .8rem; }
   .cta-actions { flex-direction: column; align-items: flex-start; gap: .9rem; }
 }
+
+/* ===================== Rideau de garage (intro) ===================== */
+#shutter {
+  position: fixed; inset: -2px 0 0; z-index: 500; overflow: hidden;
+  display: grid; place-items: center;
+  background: #141418; will-change: transform;
+  animation: doorUp 1.4s cubic-bezier(.6, 0, .18, 1) .55s forwards;
+}
+#shutter.gone, html.shutter-seen #shutter { display: none; }
+#shutter::before {                 /* tôle nervurée */
+  content: ""; position: absolute; inset: 0; z-index: 0;
+  background:
+    radial-gradient(120% 60% at 50% 8%, rgba(255,255,255,.06), rgba(255,255,255,0) 60%),
+    linear-gradient(90deg, rgba(0,0,0,.6) 0, rgba(0,0,0,0) 15%, rgba(0,0,0,0) 85%, rgba(0,0,0,.6) 100%),
+    linear-gradient(180deg, rgba(255,255,255,.04) 0, rgba(255,255,255,0) 24%, rgba(0,0,0,.4) 100%),
+    repeating-linear-gradient(180deg,
+      rgba(255,255,255,.07) 0, rgba(255,255,255,.07) 1px,
+      #202027 1px, #1a1a20 6px,
+      #14141a 40px,
+      #0c0c10 45px, #07070a 47px);
+}
+#shutter::after {                  /* lèvre basse + ombre portée qui balaie la page */
+  content: ""; position: absolute; left: 0; right: 0; bottom: -38px; height: 38px; z-index: 2;
+  background: linear-gradient(180deg, #0b0b0c, #050506);
+  border-top: 2px solid #2f2f36;
+  box-shadow: 0 26px 60px 12px rgba(0,0,0,.85);
+}
+.shutter-plate {
+  position: relative; z-index: 3; width: min(288px, 58vw); text-align: center;
+  opacity: 0; transform: translateY(10px);
+  animation: shutterPlate .5s var(--ease) .16s forwards;
+}
+.shutter-plate img { width: 100%; height: auto; filter: drop-shadow(0 8px 20px rgba(0,0,0,.7)); }
+.shutter-plate .bar { display: block; width: 110px; height: 4px; margin: 1.1rem auto 0; background: var(--accent); border-radius: 3px; box-shadow: 0 0 16px rgba(228,0,43,.55); }
+@keyframes shutterPlate { to { opacity: 1; transform: none; } }
+@keyframes doorUp {
+  0% { transform: translateY(0); }
+  10% { transform: translateY(0); }
+  100% { transform: translateY(-101%); }
+}
+@media (prefers-reduced-motion: reduce) { #shutter { display: none; } }

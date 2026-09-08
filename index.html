@@ -15,7 +15,8 @@
 <link rel="preconnect" href="https://fonts.googleapis.com" />
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
-<link rel="stylesheet" href="assets/styles.css?v=6" />
+<link rel="stylesheet" href="assets/styles.css?v=7" />
+<script>try{if(sessionStorage.getItem("mbsrShutter")==="1"||matchMedia("(prefers-reduced-motion: reduce)").matches)document.documentElement.classList.add("shutter-seen")}catch(e){}</script>
 <script type="application/ld+json">
 {
   "@context": "https://schema.org",
@@ -31,6 +32,12 @@
 </script>
 </head>
 <body>
+<div id="shutter" aria-hidden="true">
+  <div class="shutter-plate">
+    <img src="assets/logo-mbsr.svg" alt="" width="260" height="90" />
+    <span class="bar"></span>
+  </div>
+</div>
 <a class="skip-link" href="#main">Aller au contenu</a>
 
 <header class="hd" id="hd">
@@ -193,6 +200,6 @@
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js" defer></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js" defer></script>
-<script src="assets/main.js?v=4" defer></script>
+<script src="assets/main.js?v=5" defer></script>
 </body>
 </html>
