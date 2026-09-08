@@ -149,20 +149,32 @@ p { margin: 0; }
 .ticks li::before { content: ""; position: absolute; left: 0; top: .16em; width: 1.15rem; height: 1.15rem; border-radius: 50%; background: var(--accent-glow); }
 .ticks li::after { content: ""; position: absolute; left: .4rem; top: .28em; width: .3rem; height: .55rem; border: solid var(--accent-2); border-width: 0 2px 2px 0; transform: rotate(42deg); }
 
-/* ---- Réalisations : grid + lightbox ---- */
+/* ---- Réalisations : slider + lightbox ---- */
 .gallery-head { max-width: var(--wrap); margin: 0 auto clamp(2.2rem, 1.8rem + 2.5vw, 3.4rem); padding: 0 22px; text-align: center; }
 .gallery-head h2 { text-transform: uppercase; }
-.gwrap { max-width: var(--wrap); margin: 0 auto; padding: 0 22px; }
-.gtrack { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(4, 1fr); gap: 14px; }
-.gitem { position: relative; border-radius: 16px; overflow: hidden; background: var(--bg-3); border: 1px solid var(--hair); cursor: pointer; aspect-ratio: 4 / 5; }
+.gallery-slider { position: relative; max-width: var(--wrap); margin: 0 auto; padding: 0 22px; }
+.gwrap { overflow-x: auto; scroll-snap-type: x mandatory; -webkit-overflow-scrolling: touch; scrollbar-width: none; }
+.gwrap::-webkit-scrollbar { display: none; }
+.gtrack { list-style: none; margin: 0; padding: 4px 0; display: flex; gap: 16px; }
+.gitem { position: relative; flex: 0 0 clamp(258px, 30vw, 328px); border-radius: 16px; overflow: hidden; background: var(--bg-3); border: 1px solid var(--hair); cursor: pointer; aspect-ratio: 4 / 5; scroll-snap-align: start; }
 .gitem img { width: 100%; height: 100%; object-fit: cover; transition: transform .5s var(--ease); }
 .gitem:hover img { transform: scale(1.05); }
 .gitem::before { content: ""; position: absolute; inset: 0; z-index: 1; border-left: 3px solid var(--accent); transform: translateX(-6px); opacity: 0; transition: transform .3s var(--ease), opacity .3s var(--ease); }
 .gitem:hover::before { transform: translateX(0); opacity: 1; }
 .gitem span { position: absolute; left: 0; right: 0; bottom: 0; z-index: 2; padding: 2.6rem 1.1rem 1rem; color: #fff; font-weight: 700; font-size: .95rem; display: flex; flex-direction: column; gap: .12rem; background: linear-gradient(180deg, transparent, rgba(0, 0, 0, .85)); }
 .gitem em { font-style: normal; font-weight: 400; font-size: .8rem; opacity: .82; }
+.gnav { position: absolute; top: calc(50% - 12px); transform: translateY(-50%); z-index: 4; width: 46px; height: 46px; display: grid; place-items: center;
+  border-radius: 999px; border: 1px solid var(--hair-2); background: rgba(18, 18, 21, .82); backdrop-filter: blur(6px);
+  color: #fff; font-size: 1.5rem; line-height: 1; cursor: pointer; transition: background .15s var(--ease), border-color .15s var(--ease), opacity .2s var(--ease); }
+.gnav:hover { background: var(--accent); border-color: var(--accent); }
+.gnav:disabled { opacity: .28; cursor: default; }
+.gprev { left: -4px; } .gnext { right: -4px; }
 .ghint { margin: 1.6rem auto 0; text-align: center; font-size: .8rem; color: var(--ink-3); letter-spacing: .04em; }
 .ghint .gm { display: none; }
+
+/* ---- CTA contact (accueil) ---- */
+.cta { padding: clamp(4.5rem, 3.5rem + 6vw, 8rem) 0; background: var(--bg-alt); border-top: 1px solid var(--hair); }
+.cta-actions { margin-top: 1.8rem; display: flex; gap: 1.4rem; justify-content: center; align-items: center; flex-wrap: wrap; }
 
 /* ---- Déroulé ---- */
 .sinistre { background: var(--bg-alt); border-block: 1px solid var(--hair); }
@@ -226,13 +238,15 @@ p { margin: 0; }
 html.anim .reveal:not(.in) { opacity: 0; transform: translateY(26px); }
 html.anim .reveal.in { opacity: 1; transform: none; transition: opacity .8s var(--ease), transform .8s var(--ease); }
 
+/* ===================== Contact page ===================== */
+.contact-page { padding-top: clamp(3.2rem, 2rem + 5vw, 5.5rem); }
+.contact-page .narrow { text-align: center; }
+.back-lk { color: var(--ink-3); text-transform: none; letter-spacing: 0; font-weight: 500; }
+.back-lk:hover { color: var(--accent-2); }
+
 /* ===================== Responsive ===================== */
-@media (max-width: 1040px) {
-  .gtrack { grid-template-columns: repeat(3, 1fr); }
-}
 @media (max-width: 940px) {
   .craft-list { grid-template-columns: repeat(2, 1fr); }
-  .gtrack { grid-template-columns: repeat(2, 1fr); }
   .steps { grid-template-columns: 1fr; gap: 2rem; }
   .contact-grid { grid-template-columns: 1fr; }
 }
@@ -245,12 +259,11 @@ html.anim .reveal.in { opacity: 1; transform: none; transition: opacity .8s var(
   .nav-cta { margin-top: 1rem; text-align: center; border-bottom: 0; }
   .burger { display: block; }
 
-  /* réalisations : swipe carousel on mobile (native touch scroll, no JS) */
-  .gwrap { overflow-x: auto; scroll-snap-type: x mandatory; -webkit-overflow-scrolling: touch;
-    scrollbar-width: none; margin-inline: calc(22px - 4vw); padding-inline: 4vw; }
-  .gwrap::-webkit-scrollbar { display: none; }
-  .gtrack { display: flex; grid-template-columns: none; gap: 12px; }
-  .gitem { flex: 0 0 82%; aspect-ratio: 4 / 5; scroll-snap-align: center; }
+  /* réalisations : le slider passe en swipe plein cadre, flèches masquées */
+  .gallery-slider { padding-inline: 0; }
+  .gwrap { scroll-snap-type: x mandatory; padding-inline: 4vw; }
+  .gitem { flex: 0 0 82%; scroll-snap-align: center; }
+  .gnav { display: none; }
   .ghint .gd { display: none; }
   .ghint .gm { display: inline; }
 }
@@ -258,4 +271,5 @@ html.anim .reveal.in { opacity: 1; transform: none; transition: opacity .8s var(
   .craft-list { grid-template-columns: 1fr; }
   .fld2 { grid-template-columns: 1fr; }
   .hero-links { flex-direction: column; gap: .8rem; }
+  .cta-actions { flex-direction: column; gap: .9rem; }
 }

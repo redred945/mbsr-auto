@@ -15,7 +15,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com" />
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
-<link rel="stylesheet" href="assets/styles.css?v=4" />
+<link rel="stylesheet" href="assets/styles.css?v=5" />
 <script type="application/ld+json">
 {
   "@context": "https://schema.org",
@@ -43,7 +43,7 @@
       <a href="#methode">La méthode</a>
       <a href="#realisations">Réalisations</a>
       <a href="#etapes">Déroulé</a>
-      <a href="#contact" class="nav-cta">Devis</a>
+      <a href="/contact" class="nav-cta">Devis</a>
     </nav>
     <button class="burger" id="burger" aria-expanded="false" aria-controls="nav" aria-label="Menu"><span></span><span></span></button>
   </div>
@@ -68,7 +68,7 @@
     <h1 class="shine">La retouche invisible.</h1>
     <p class="hero-sub">Rayures, jantes aluminium, retouches peinture.<br />Mobile Body Smart Repair intervient chez vous, en Loir-et-Cher et Indre-et-Loire.</p>
     <p class="hero-links">
-      <a href="#contact" class="lk">Devis rapide&nbsp;›</a>
+      <a href="/contact" class="lk">Devis rapide&nbsp;›</a>
       <a href="#realisations" class="lk">Voir les réalisations&nbsp;›</a>
     </p>
   </div>
@@ -110,7 +110,7 @@
       <li>Teinte recherchée au code peinture constructeur</li>
       <li>Séchage rapide : véhicule roulant le jour même</li>
     </ul>
-    <p><a href="#contact" class="lk">Demander un devis&nbsp;›</a></p>
+    <p><a href="/contact" class="lk">Demander un devis&nbsp;›</a></p>
   </div>
 </section>
 
@@ -120,7 +120,9 @@
     <p class="eyebrow">Réalisations</p>
     <h2>Des chantiers récents.</h2>
   </div>
-  <div class="gwrap">
+  <div class="gallery-slider">
+    <button class="gnav gprev" type="button" aria-label="Précédent">‹</button>
+    <div class="gwrap">
     <ul class="gtrack" id="gtrack">
       <li class="gitem"><img src="assets/img/ig-02.jpg" alt="Rayure profonde sur l’aile arrière d’une berline noire" width="480" height="640" loading="lazy" /><span>Rayure profonde<em>Aile arrière — raccord peinture</em></span></li>
       <li class="gitem"><img src="assets/img/ig-08.jpg" alt="Peinture d’un capot au pistolet en cabine mobile" width="361" height="640" loading="lazy" /><span>Peinture capot<em>Application au pistolet</em></span></li>
@@ -132,8 +134,10 @@
       <li class="gitem"><img src="assets/img/ig-04.jpg" alt="Bas de caisse corrodé avant reprise" width="480" height="640" loading="lazy" /><span>Bas de caisse<em>Reprise corrosion &amp; peinture</em></span></li>
       <li class="gitem"><img src="assets/img/ig-09.jpg" alt="Avant de véhicule en apprêt avec guide de ponçage" width="361" height="640" loading="lazy" /><span>Préparation peinture<em>Masticage &amp; apprêt garnissant</em></span></li>
     </ul>
+    </div>
+    <button class="gnav gnext" type="button" aria-label="Suivant">›</button>
   </div>
-  <p class="ghint reveal"><span class="gd">Cliquez sur une photo pour l’agrandir</span><span class="gm">Glissez pour parcourir · appuyez pour agrandir</span></p>
+  <p class="ghint reveal"><span class="gd">Glissez ou utilisez les flèches · cliquez une photo pour l’agrandir</span><span class="gm">Glissez pour parcourir · appuyez pour agrandir</span></p>
 </section>
 
 <!-- ===================== DÉROULÉ ===================== -->
@@ -150,45 +154,16 @@
   </ol>
 </section>
 
-<!-- ===================== CONTACT ===================== -->
-<section class="contact" id="contact">
+<!-- ===================== CTA CONTACT ===================== -->
+<section class="cta" id="contact">
   <div class="narrow reveal">
     <p class="eyebrow">Contact</p>
     <h2>Un devis en quelques photos.</h2>
-    <p class="big-p">Décrivez la zone à reprendre et joignez des photos : on revient vers vous rapidement.</p>
-  </div>
-
-  <div class="contact-grid reveal">
-    <form class="cform" id="cform" novalidate>
-      <div class="fld"><label for="f-name">Nom</label><input id="f-name" name="name" type="text" autocomplete="name" required /></div>
-      <div class="fld2">
-        <div class="fld"><label for="f-email">E-mail</label><input id="f-email" name="email" type="email" autocomplete="email" required /></div>
-        <div class="fld"><label for="f-phone">Téléphone</label><input id="f-phone" name="phone" type="tel" autocomplete="tel" /></div>
-      </div>
-      <div class="fld"><label for="f-veh">Véhicule</label><input id="f-veh" name="vehicle" type="text" placeholder="Marque, modèle, couleur / code peinture" /></div>
-      <div class="fld"><label for="f-city">Commune (41 / 37)</label><input id="f-city" name="city" type="text" placeholder="Ville et code postal" /></div>
-      <div class="fld"><label for="f-msg">Zone à reprendre</label><textarea id="f-msg" name="message" rows="5" placeholder="Ex. : rayure profonde sur l’aile arrière droite, 15 cm" required></textarea></div>
-      <button type="submit" class="btn">Envoyer la demande</button>
-      <p class="fnote" id="fnote" role="status"></p>
-      <p class="falt">Ou en direct : <a href="https://www.instagram.com/mbsr_auto/" target="_blank" rel="noopener">DM Instagram @mbsr_auto</a></p>
-    </form>
-
-    <aside class="cinfo">
-      <dl>
-        <div><dt>Zone d’intervention</dt><dd>Loir-et-Cher (41)<br />Indre-et-Loire (37)</dd></div>
-        <div><dt>Intervention</dt><dd>À domicile ou sur votre lieu de travail</dd></div>
-        <div><dt>Instagram</dt><dd><a href="https://www.instagram.com/mbsr_auto/" target="_blank" rel="noopener">@mbsr_auto</a></dd></div>
-        <div><dt>Devis</dt><dd>Réponse sous 24 – 48 h</dd></div>
-      </dl>
-      <div class="socials">
-        <a href="https://www.instagram.com/mbsr_auto/" target="_blank" rel="noopener">Instagram — @mbsr_auto</a>
-      </div>
-    </aside>
-  </div>
-
-  <div class="map reveal">
-    <iframe title="Zone d’intervention — Loir-et-Cher et Indre-et-Loire" loading="lazy" referrerpolicy="no-referrer-when-downgrade"
-      src="https://www.openstreetmap.org/export/embed.html?bbox=0.35%2C47.00%2C1.75%2C47.75&layer=mapnik&marker=47.37%2C1.05"></iframe>
+    <p class="big-p">Décrivez la zone à reprendre, joignez des photos : on revient vers vous sous 24 – 48 h.</p>
+    <p class="cta-actions">
+      <a href="/contact" class="btn">Demander un devis</a>
+      <a href="https://www.instagram.com/mbsr_auto/" target="_blank" rel="noopener" class="lk">ou DM Instagram @mbsr_auto&nbsp;›</a>
+    </p>
   </div>
 </section>
 </main>
@@ -197,7 +172,7 @@
   <div class="ft-in">
     <img src="assets/logo-mbsr.svg" alt="MBSR Auto" width="132" height="42" />
     <nav class="ft-nav" aria-label="Pied de page">
-      <a href="#prestations">Prestations</a><a href="#methode">La méthode</a><a href="#realisations">Réalisations</a><a href="#etapes">Déroulé</a><a href="#contact">Contact</a>
+      <a href="#prestations">Prestations</a><a href="#methode">La méthode</a><a href="#realisations">Réalisations</a><a href="#etapes">Déroulé</a><a href="/contact">Contact</a>
     </nav>
     <p class="ft-meta">Carrosserie mobile · Loir-et-Cher &amp; Indre-et-Loire · <a href="https://www.instagram.com/mbsr_auto/" target="_blank" rel="noopener">@mbsr_auto</a></p>
   </div>
@@ -214,6 +189,6 @@
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js" defer></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js" defer></script>
-<script src="assets/main.js?v=2" defer></script>
+<script src="assets/main.js?v=3" defer></script>
 </body>
 </html>

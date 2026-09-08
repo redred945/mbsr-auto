@@ -62,6 +62,29 @@
     unlock();
   }
 
+  /* réalisations : slider arrows */
+  var gwrap = document.querySelector(".gallery-slider .gwrap");
+  var gtrack = document.getElementById("gtrack");
+  var gprev = document.querySelector(".gnav.gprev");
+  var gnext = document.querySelector(".gnav.gnext");
+  if (gwrap && gtrack && gprev && gnext) {
+    var gstep = function () {
+      var it = gtrack.querySelector(".gitem");
+      var w = it ? it.getBoundingClientRect().width : 300;
+      return (w + 16) * 2;
+    };
+    var gupd = function () {
+      var max = gtrack.scrollWidth - gwrap.clientWidth - 4;
+      gprev.disabled = gwrap.scrollLeft <= 4;
+      gnext.disabled = gwrap.scrollLeft >= max;
+    };
+    gprev.addEventListener("click", function () { gwrap.scrollBy({ left: -gstep(), behavior: "smooth" }); });
+    gnext.addEventListener("click", function () { gwrap.scrollBy({ left: gstep(), behavior: "smooth" }); });
+    gwrap.addEventListener("scroll", gupd, { passive: true });
+    window.addEventListener("resize", gupd);
+    gupd();
+  }
+
   /* lightbox */
   var items = Array.prototype.slice.call(document.querySelectorAll("#gtrack .gitem"));
   var lb = document.getElementById("lb");
