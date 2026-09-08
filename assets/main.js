@@ -9,17 +9,17 @@
   if (shutter) {
     var shutterSeen = false;
     try { shutterSeen = sessionStorage.getItem("mbsrShutter") === "1"; } catch (e) {}
+    var glow = document.getElementById("shutterGlow");
     var killShutter = function () {
-      if (!shutter) return;
-      shutter.classList.add("gone");
-      if (shutter.parentNode) shutter.parentNode.removeChild(shutter);
-      shutter = null;
+      if (shutter && shutter.parentNode) shutter.parentNode.removeChild(shutter);
+      if (glow && glow.parentNode) glow.parentNode.removeChild(glow);
+      shutter = null; glow = null;
     };
     if (shutterSeen || reduce) {
       killShutter();
     } else {
       try { sessionStorage.setItem("mbsrShutter", "1"); } catch (e) {}
-      setTimeout(killShutter, 2400);
+      setTimeout(killShutter, 3100);
       ["click", "touchstart", "keydown", "wheel"].forEach(function (ev) {
         window.addEventListener(ev, killShutter, { once: true, passive: true });
       });
@@ -60,7 +60,7 @@
     }
     window.addEventListener("keydown", function (e) { if (e.key === "Escape") closeNav(); });
     if (hd) {
-      var onScroll = function () { hd.classList.toggle("stuck", window.scrollY > 8); };
+      var onScroll = function () { hd.classList.toggle("stuck", window.scrollY > 28); };
       onScroll();
       window.addEventListener("scroll", onScroll, { passive: true });
     }

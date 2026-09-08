@@ -63,10 +63,24 @@ p { margin: 0; }
 .btn:hover { filter: brightness(1.1); }
 .btn:active { transform: scale(.98); }
 
-/* ===================== Header ===================== */
-.hd { position: sticky; top: 0; z-index: 100; background: rgba(12, 12, 14, .72); backdrop-filter: saturate(180%) blur(20px); border-bottom: 1px solid transparent; transition: border-color .3s var(--ease); }
-.hd.stuck { border-bottom-color: var(--hair); }
-.hd-in { max-width: var(--wrap); margin: 0 auto; padding: 0 22px; height: 64px; display: flex; align-items: center; justify-content: space-between; gap: 1.5rem; }
+/* ===================== Header (barre en haut → îlot flottant au scroll) ===================== */
+.hd { position: sticky; top: 0; z-index: 100; background: linear-gradient(180deg, rgba(12, 12, 14, .92), rgba(12, 12, 14, 0)); transition: background .3s var(--ease); }
+.hd.stuck { background: transparent; }
+.hd-in {
+  max-width: var(--wrap); margin: 0 auto; padding: 0 22px; height: 64px;
+  display: flex; align-items: center; justify-content: space-between; gap: 1.5rem;
+  border: 1px solid transparent; border-radius: 0;
+  transition: max-width .42s var(--ease), margin-top .32s var(--ease), height .3s var(--ease),
+    padding .3s var(--ease), background .3s var(--ease), border-color .3s var(--ease),
+    border-radius .42s var(--ease), box-shadow .3s var(--ease);
+}
+.hd.stuck .hd-in {
+  max-width: min(960px, calc(100% - 28px));
+  margin-top: 9px; height: 54px; padding: 0 12px 0 20px;
+  background: rgba(19, 19, 23, .72); backdrop-filter: saturate(180%) blur(22px);
+  border-color: var(--hair-2); border-radius: 100px;
+  box-shadow: 0 16px 38px -16px rgba(0, 0, 0, .7);
+}
 .hd-logo img { height: 36px; width: auto; }
 .nav { display: flex; align-items: center; gap: 2rem; }
 .nav > a { font-size: .85rem; font-weight: 500; color: var(--ink-2); transition: color .15s var(--ease); }
@@ -79,7 +93,7 @@ p { margin: 0; }
 .burger[aria-expanded="true"] span:nth-child(2) { transform: translateY(-2.3px) rotate(-45deg); }
 
 /* ===================== Hero ===================== */
-.hero { position: relative; overflow: hidden; text-align: center; padding: clamp(3.5rem, 2.5rem + 6vw, 7rem) 22px 0; }
+.hero { position: relative; overflow: hidden; text-align: center; padding: clamp(1.6rem, 1rem + 2.4vw, 3rem) 22px 0; }
 .hero::before {
   content: ""; position: absolute; left: 50%; top: -6%; width: min(1100px, 120vw); aspect-ratio: 1;
   transform: translateX(-50%); pointer-events: none; z-index: 0;
@@ -87,7 +101,7 @@ p { margin: 0; }
 }
 .hero-text { position: relative; z-index: 1; max-width: 900px; margin: 0 auto; }
 .hero .eyebrow::before { display: none; }
-.hero h1 { position: relative; font-size: clamp(3rem, 1.5rem + 5.6vw, 6rem); letter-spacing: -.04em; text-wrap: balance; text-transform: uppercase; }
+.hero h1 { position: relative; font-size: clamp(2.5rem, 1.4rem + 4.4vw, 4.6rem); letter-spacing: -.04em; text-wrap: balance; text-transform: uppercase; }
 
 @supports ((-webkit-background-clip: text) or (background-clip: text)) {
   .hero h1.shine {
@@ -120,17 +134,17 @@ p { margin: 0; }
   .hero h1.shine { animation: none; }
   .sparkles { display: none; }
 }
-.hero-sub { margin: 1.15rem auto 0; max-width: 44ch; font-size: clamp(1.1rem, 1rem + .55vw, 1.4rem); font-weight: 500; color: var(--ink-2); letter-spacing: -.02em; line-height: 1.36; }
-.hero-links { margin-top: 1.35rem; display: flex; gap: 1.6rem; justify-content: center; flex-wrap: wrap; font-size: 1.02rem; }
+.hero-sub { margin: 1rem auto 0; max-width: 44ch; font-size: clamp(1.05rem, 1rem + .45vw, 1.32rem); font-weight: 500; color: var(--ink-2); letter-spacing: -.02em; line-height: 1.36; }
+.hero-links { margin-top: 1.2rem; display: flex; gap: 1.4rem; justify-content: center; align-items: center; flex-wrap: wrap; font-size: 1rem; }
 
 .hero-shot {
   position: relative; z-index: 1;
-  margin: clamp(1.8rem, 1rem + 3vw, 3.2rem) calc(50% - 50vw) 0; width: 100vw;
+  margin: clamp(1.3rem, .9rem + 2vw, 2.4rem) calc(50% - 50vw) 0; width: 100vw;
   border: 0; overflow: hidden;
   -webkit-mask-image: linear-gradient(to bottom, transparent 0, #000 12%, #000 84%, transparent 100%);
   mask-image: linear-gradient(to bottom, transparent 0, #000 12%, #000 84%, transparent 100%);
 }
-.hero-shot img { width: 100%; height: clamp(320px, 46vw, 560px); object-fit: cover; object-position: 50% 46%; will-change: transform; }
+.hero-shot img { width: 100%; height: clamp(280px, 40vw, 480px); object-fit: cover; object-position: 50% 46%; will-change: transform; }
 
 /* ===================== Sections base ===================== */
 .crafts, .atelier, .gallery, .sinistre, .contact, .cta {
@@ -330,39 +344,54 @@ html.anim .reveal.in { opacity: 1; transform: none; transition: opacity .8s var(
 #shutter {
   position: fixed; inset: -2px 0 0; z-index: 500; overflow: hidden;
   display: grid; place-items: center;
-  background: #141418; will-change: transform;
-  animation: doorUp 1.4s cubic-bezier(.6, 0, .18, 1) .55s forwards;
+  background: #121216; will-change: transform;
+  animation: doorUp 1.75s cubic-bezier(.5, .02, .16, 1) .95s forwards;
 }
 #shutter.gone, html.shutter-seen #shutter { display: none; }
-#shutter::before {                 /* tôle nervurée */
+#shutter::before {                 /* tôle nervurée, panneaux marqués */
   content: ""; position: absolute; inset: 0; z-index: 0;
   background:
-    radial-gradient(120% 60% at 50% 8%, rgba(255,255,255,.06), rgba(255,255,255,0) 60%),
-    linear-gradient(90deg, rgba(0,0,0,.6) 0, rgba(0,0,0,0) 15%, rgba(0,0,0,0) 85%, rgba(0,0,0,.6) 100%),
-    linear-gradient(180deg, rgba(255,255,255,.04) 0, rgba(255,255,255,0) 24%, rgba(0,0,0,.4) 100%),
+    radial-gradient(130% 55% at 50% 6%, rgba(255,255,255,.09), rgba(255,255,255,0) 60%),
+    linear-gradient(90deg, rgba(0,0,0,.66) 0, rgba(0,0,0,0) 16%, rgba(0,0,0,0) 84%, rgba(0,0,0,.66) 100%),
+    linear-gradient(180deg, rgba(255,255,255,.05) 0, rgba(255,255,255,0) 22%, rgba(0,0,0,.44) 100%),
     repeating-linear-gradient(180deg,
-      rgba(255,255,255,.07) 0, rgba(255,255,255,.07) 1px,
-      #202027 1px, #1a1a20 6px,
-      #14141a 40px,
-      #0c0c10 45px, #07070a 47px);
+      #3a3a44 0, #3a3a44 2px,
+      #262630 2px, #1d1d26 9px,
+      #14141b 34px,
+      #0c0c12 43px,
+      #050508 45px, #000 47px);
 }
 #shutter::after {                  /* lèvre basse + ombre portée qui balaie la page */
-  content: ""; position: absolute; left: 0; right: 0; bottom: -38px; height: 38px; z-index: 2;
-  background: linear-gradient(180deg, #0b0b0c, #050506);
-  border-top: 2px solid #2f2f36;
-  box-shadow: 0 26px 60px 12px rgba(0,0,0,.85);
+  content: ""; position: absolute; left: 0; right: 0; bottom: -40px; height: 40px; z-index: 2;
+  background: linear-gradient(180deg, #0b0b0c, #030304);
+  border-top: 2px solid #35353d;
+  box-shadow: 0 28px 66px 14px rgba(0,0,0,.9);
 }
 .shutter-plate {
   position: relative; z-index: 3; width: min(288px, 58vw); text-align: center;
-  opacity: 0; transform: translateY(10px);
-  animation: shutterPlate .5s var(--ease) .16s forwards;
+  opacity: 0; transform: translateY(12px) scale(.97);
+  animation: shutterPlate .55s var(--ease) .18s forwards;
 }
 .shutter-plate img { width: 100%; height: auto; filter: drop-shadow(0 8px 20px rgba(0,0,0,.7)); }
-.shutter-plate .bar { display: block; width: 110px; height: 4px; margin: 1.1rem auto 0; background: var(--accent); border-radius: 3px; box-shadow: 0 0 16px rgba(228,0,43,.55); }
+.shutter-plate .bar { display: block; width: 110px; height: 4px; margin: 1.1rem auto 0; background: var(--accent); border-radius: 3px; box-shadow: 0 0 18px rgba(228,0,43,.6); }
+/* halo de lumière qui « entre » quand le rideau se lève */
+#shutterGlow {
+  position: fixed; left: 0; right: 0; top: 0; height: 62vh; z-index: 499; pointer-events: none;
+  background: linear-gradient(180deg, rgba(255,244,235,.32) 0, rgba(255,244,235,.08) 42%, rgba(255,244,235,0) 78%);
+  opacity: 0; transform: translateY(-26%);
+  animation: shutterGlow 1.15s var(--ease) 1.55s forwards;
+}
+#shutterGlow.gone, html.shutter-seen #shutterGlow { display: none; }
 @keyframes shutterPlate { to { opacity: 1; transform: none; } }
 @keyframes doorUp {
-  0% { transform: translateY(0); }
-  10% { transform: translateY(0); }
-  100% { transform: translateY(-101%); }
+  0%   { transform: translateY(0); }
+  16%  { transform: translateY(0); }        /* pose */
+  100% { transform: translateY(-101%); }    /* montée franche, sans rebond */
 }
+@keyframes shutterGlow {
+  0%   { opacity: 0; transform: translateY(-30%); }
+  38%  { opacity: 1; }
+  100% { opacity: 0; transform: translateY(12%); }
+}
+@media (prefers-reduced-motion: reduce) { #shutterGlow { display: none; } }
 @media (prefers-reduced-motion: reduce) { #shutter { display: none; } }
