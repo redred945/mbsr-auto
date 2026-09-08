@@ -62,11 +62,41 @@
     unlock();
   }
 
-  /* réalisations : slider arrows */
+  /* carrousels : pastilles de pagination */
+  var buildDots = function (scroller, itemList, dotsEl) {
+    if (!scroller || !dotsEl || !itemList.length) return;
+    itemList.forEach(function (it, i) {
+      var b = document.createElement("button");
+      b.type = "button";
+      b.setAttribute("aria-label", "Aller à l’élément " + (i + 1));
+      b.addEventListener("click", function () {
+        var d = it.getBoundingClientRect().left - scroller.getBoundingClientRect().left;
+        scroller.scrollBy({ left: d - 4, behavior: "smooth" });
+      });
+      dotsEl.appendChild(b);
+    });
+    var dots = dotsEl.children;
+    var sync = function () {
+      var mid = scroller.getBoundingClientRect().left + scroller.clientWidth / 2;
+      var best = 0, bd = Infinity;
+      for (var i = 0; i < itemList.length; i++) {
+        var r = itemList[i].getBoundingClientRect();
+        var d = Math.abs(r.left + r.width / 2 - mid);
+        if (d < bd) { bd = d; best = i; }
+      }
+      for (var j = 0; j < dots.length; j++) dots[j].classList.toggle("on", j === best);
+    };
+    scroller.addEventListener("scroll", sync, { passive: true });
+    window.addEventListener("resize", sync);
+    sync();
+  };
+
+  /* réalisations : slider arrows + pastilles */
   var gwrap = document.querySelector(".gallery-slider .gwrap");
   var gtrack = document.getElementById("gtrack");
   var gprev = document.querySelector(".gnav.gprev");
   var gnext = document.querySelector(".gnav.gnext");
+  var gitems = gtrack ? Array.prototype.slice.call(gtrack.querySelectorAll(".gitem")) : [];
   if (gwrap && gtrack && gprev && gnext) {
     var gstep = function () {
       var it = gtrack.querySelector(".gitem");
@@ -83,6 +113,13 @@
     gwrap.addEventListener("scroll", gupd, { passive: true });
     window.addEventListener("resize", gupd);
     gupd();
+  }
+  if (gwrap) buildDots(gwrap, gitems, document.getElementById("galDots"));
+
+  /* prestations : carrousel mobile + pastilles (le CSS gère grille -> flex) */
+  var craftList = document.querySelector(".craft-list");
+  if (craftList) {
+    buildDots(craftList, Array.prototype.slice.call(craftList.querySelectorAll("li")), document.getElementById("craftDots"));
   }
 
   /* lightbox */
